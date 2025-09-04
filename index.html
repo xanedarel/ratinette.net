@@ -1,0 +1,363 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <title>ratinette.net</title>
+  <meta charset="UTF-8" />
+
+  <link rel="stylesheet" href="https://unpkg.com/98.css" />
+</head>
+
+<style>
+  .text-window {
+    font-family: 'Pixelated MS Sans Serif', 'MS Sans Serif', 'Microsoft Sans Serif', 'sans-serif';
+    font-size: 13px;
+    letter-spacing: 0.5px;
+  }
+  .window {
+    position: fixed;
+  }
+
+
+  body {
+    background: #018776;
+    image-rendering: pixelated;
+  }
+
+  .title-bar {
+    cursor: move;
+  }
+
+  .taskbar {
+    position: fixed;
+    background-color: #bbc3c4;
+    bottom: 0px;
+    left: 0px;
+    width: 100%;
+    box-shadow: 0px -1px 0px #ffffff;
+    padding: 0;
+    display: flex;
+    align-items: center;
+  }
+
+  .taskbar-obj {
+    background-color: #bbc3c4;
+    display: flex;
+    flex: 1 1 auto;
+    align-items: center;
+    height: 22px;
+    padding: 0;
+    box-shadow: inset -1px -1px 0px #ffffff, inset 1px 1px 0px #808088;
+    justify-content: space-between;
+  }
+
+  .taskbar-items {
+    display: flex;
+    align-items: center;
+    flex: 1 1 auto;
+  }
+
+  .taskbar-clock {
+    margin-left: 4px;
+    margin-right: 0;
+    margin-left: auto;
+    min-width: 70px;
+    text-align: right;
+  }
+
+  .icon.ListIcon:focus,
+  .icon.ListIcon:active,
+  .icon.ListIcon:active:focus,
+  .icon.ListIcon.is-active {
+    outline: none;
+  }
+
+  .icon:focus .icon-icon,
+  .icon:active .icon-icon,
+  .icon:active:focus .icon-icon,
+  .icon.is-active .icon-icon {
+    filter: contrast(0.9) drop-shadow(16px 16px 20px red) invert(75%);
+  }
+
+  .icon:focus .icon-label,
+  .icon:active .icon-label,
+  .icon:active:focus .icon-label,
+  .icon.is-active .icon-label {
+    background-color: #000096;
+    color: #ffffff;
+    outline: 1px dotted #ffffff;
+    outline-offset: -1px;
+  }
+
+  .icon {
+    all: revert;
+    background-color: transparent;
+    border: none;
+    box-shadow: none;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 52px;
+    height: 68px;
+    margin: 8px;
+    padding: 4px;
+  }
+
+  .icon-icon {
+    display: inline-block;
+    width: 32px;
+    height: 32px;
+    margin-bottom: 4px;
+  }
+
+  .icon-label,
+  .taskbar-clock {
+    font-family: 'Pixelated MS Sans Serif', 'MS Sans Serif', 'Microsoft Sans Serif', 'sans-serif';
+    font-size: 11px;
+    font-smooth: never;
+  }
+</style>
+
+<body>
+  <div class="explorerview">
+    <div class="explorericons" style="padding: 16px; display: flex">
+      <button class="icon">
+        <img class="icon-icon" src="img/ie.png" alt="IE" />
+        <div class="icon-label">Internet Explorer</div>
+      </button>
+      <button class="icon" tabindex="0" onclick="document.getElementById('audioplayer').style.display = 'block';">
+        <img class="icon-icon" src="img/audio.png" alt="Audio" />
+        <div class="icon-label">Audio Player</div>
+      </button>
+      <button class="icon" tabindex="0">
+        <img class="icon-icon" src="img/computer.png" alt="Explorer" />
+        <div class="icon-label">This computer</div>
+        <button class="icon" tabindex="0" onclick="document.getElementById('whoami').style.display = 'block';">
+          <img class="icon-icon" src="img/whoami.png" alt="Whoami" />
+          <div class="icon-label">Whoami?</div>
+        </button>
+      </button>
+    </div>
+  </div>
+  <div id="whoami" class="window" style="display: none; top: 150px; left: 150px; width: 300px">
+    <div id="title-bar" class="title-bar">
+      <div class="title-bar-text">
+        Whoami?
+      </div>
+      <div class="title-bar-controls">
+        <button class="minimize" aria-label="minimize"></button>
+        <button aria-label="Maximize" disabled></button>
+        <button aria-label="Close" onclick="document.getElementById('whoami').style.display = 'none';"></button>
+      </div>
+    </div>
+    <div id="text-window" class="window-body">
+      <p> Hi there! This is ratiweb, my own website, ill continue to update it as i learn more html and js</p>
+    </div>
+  </div>
+  <div id="audioplayer" class="window" style="z-index: 10; display: block; top: 100px; left: 100px; width: 240px">
+    <div id="title-bar" class="title-bar">
+      <div class="title-bar-text">
+        Audio Player
+      </div>
+      <div class="title-bar-controls">
+        <button class="minimize" aria-label="Minimize"></button>
+        <button aria-label="Maximize"></button>
+        <button class="closebutton" aria-label="Close"
+          onclick="document.getElementById('audioplayer').style.display = 'none' ;"></button>
+      </div>
+    </div>
+    <div class="window-body" style="font-size: 11px;">
+      <div class="player-controls">
+        <img src="img/cover/ep1.png" alt="Cover" style="width: 64px; height: 64px; float: left; margin-right: 8px;" />
+        <button id="play-btn">Play</button>
+        <button id="pause-btn">Pause</button>
+        <button id="stop-btn">Stop</button>
+      </div>
+      <div class="field-row" style="height: 25px;">
+        <label for="range22" style="width: 40px;">Playback:</label>
+        <label id="playbackposition" for="range23" style="width: 35px;overflow: hidden">0:00</label>
+        <input id="range23" type="range" min="0" max="11" value="20" />
+      </div>
+      <div class="epselection" id="epselection">
+        <select>
+          <option selected>1 - When the summer was too hot</option>
+        </select>
+      </div>
+      <fieldset>
+        <legend>Now playing: </legend>
+        <div class="field-row">
+          <input checked id="radio1" type="radio" name="fieldset-1"
+            onclick="document.getElementById('audio-element').src='songs/playstation.mp3'; document.getElementById('audio-element').play();">
+          <label for="radio1">playstation.mp3</label>
+        </div>
+        <div class="field-row">
+          <input id="radio2" type="radio" name="fieldset-1"
+            onclick="document.getElementById('audio-element').src='songs/cello8.mp3'; document.getElementById('audio-element').play();">
+          <label for="radio2">cello7.mp3</label>
+        </div>
+        <div class="field-row">
+          <input id="radio3" type="radio" name="fieldset-1"
+            onclick="document.getElementById('audio-element').src='songs/vaporv6.mp3'; document.getElementById('audio-element').play();">
+          <label for="radio3">damev6.mp3</label>
+        </div>
+      </fieldset>
+      <audio id="audio-element">
+        <source src="songs/playstation.mp3" type="audio/mpeg">
+      </audio>
+    </div>
+  </div>
+  <div id="infobox" class="window" style="z-index: 9; top: 32px; left: 32px; width: 250px; display: block">
+    <div id="title-bar" class="title-bar">
+      <div class="title-bar-text">
+        INFO NOTICE
+      </div>
+      <div class="title-bar-controls">
+        <button aria-label="Help"></button>
+        <button class="closebutton" aria-label="Close"
+          onclick="document.getElementById('infobox').style.display = 'none';"></button>
+      </div>
+    </div>
+    <div class="window-body">
+      <p>This website is not ready yet</p>
+      <section class="field-row" style="justify-content: flex-end">
+        <button class="closebutton" onclick="document.getElementById('infobox').style.display = 'none';">OK</button>
+        <button>Cancel</button>
+      </section>
+    </div>
+  </div>
+  <div id="startmenu" class="window"
+    style="display: none; position: fixed; bottom: 22px; left: 0px; width: 200px; z-index: 30; background-color: #c0c0c0;  ">
+    <div class="start-menu-items">
+      <button class="start-menu-item">Programs</button>
+      <button class="start-menu-item">Documents</button>
+      <button class="start-menu-item">Settings</button>
+      <button class="start-menu-item">Find</button>
+      <button class="start-menu-item">Help</button>
+      <button class="start-menu-item">Run...</button>
+      <hr>
+      <button class="start-menu-item">Shut Down...</button>
+    </div>
+  </div>
+  <div class="taskbar">
+    <div class="start-menu">
+      <button class="start-button" id="start-button">Start</button>
+    </div>
+    <div class="taskbar-obj">
+      <div class="taskbar-items">
+        <button class="taskbar-button">ratinette.net</button>
+      </div>
+    </div>
+    <div id="clock" class="taskbar-clock">12:00 PM</div>
+  </div>
+</body>
+
+<script>
+  // Clock
+  function updateClock() {
+    const clockElement = document.getElementById('clock');
+    const now = new Date();
+    let hours = now.getHours();
+    const minutes = now.getMinutes().toString().padStart(2, '0');
+    const ampm = hours >= 12 ? 'PM' : 'AM';
+    hours = hours % 12;
+    hours = hours ? hours : 12;
+    clockElement.textContent = `${hours}:${minutes} ${ampm}`;
+  }
+  setInterval(updateClock, 1000);
+  updateClock();
+  // close start menu when clicked outside of it 
+  document.getElementById('start-button').onclick = function () {
+    const startMenu = document.getElementById('startmenu');
+    if (startMenu.style.display === 'block') {
+      startMenu.style.display = 'none';
+    } else {
+      startMenu.style.display = 'block';
+    }
+  };
+  document.addEventListener('click', function (event) {
+    const startMenu = document.getElementById('startmenu');
+    const startButton = document.querySelector('.start-button');
+    if (startMenu.style.display === 'block' && !startMenu.contains(event.target) && event.target !== startButton) {
+      startMenu.style.display = 'none';
+    }
+  });
+  function makeDraggable(element) {
+    let currentPosX = 0, currentPosY = 0, previousPosX = 0, previousPosY = 0;
+    element.querySelector('.title-bar').onmousedown = function (e) {
+      if (e.target.closest('.title-bar-controls')) return;
+      dragMouseDown(e);
+    };
+    function dragMouseDown(e) {
+      e.preventDefault();
+      previousPosX = e.clientX;
+      previousPosY = e.clientY;
+      document.onmouseup = closeDragElement;
+      document.onmousemove = elementDrag;
+      document.body.style.userSelect = 'none';
+      element.style.opacity = 0.4;
+      element.style.border = '2px #000000';
+
+      // restore opacity and remove border om mouse release
+      document.onmouseup = function () {
+        closeDragElement();
+        element.style.opacity = 1;
+        element.style.border = 'none';
+        document.body.style.userSelect = 'auto';
+      };
+    }
+
+    function elementDrag(e) {
+      e.preventDefault();
+      currentPosX = previousPosX - e.clientX;
+      currentPosY = previousPosY - e.clientY;
+      previousPosX = e.clientX;
+      previousPosY = e.clientY;
+      element.style.top = (element.offsetTop - currentPosY) + 'px';
+      element.style.left = (element.offsetLeft - currentPosX) + 'px';
+    }
+
+    function closeDragElement() {
+      document.onmouseup = null;
+      document.onmousemove = null;
+    }
+
+  }
+
+  makeDraggable(document.querySelector('#infobox'));
+  makeDraggable(document.querySelector('#audioplayer'));
+  makeDraggable(document.querySelector('#whoami'));
+
+  document.getElementById('play-btn').onclick = function () {
+    document.getElementById('audio-element').play();
+  };
+  document.getElementById('pause-btn').onclick = function () {
+    document.getElementById('audio-element').pause();
+  };
+  document.getElementById('stop-btn').onclick = function () {
+    const audio = document.getElementById('audio-element');
+    audio.pause();
+    audio.currentTime = 0;
+  };
+
+  document.getElementById('audio-element').ontimeupdate = function () {
+    const audio = document.getElementById('audio-element');
+    const playbackPosition = document.getElementById('playbackposition');
+    const minutes = Math.floor(audio.currentTime / 60);
+    const seconds = Math.floor(audio.currentTime % 60).toString().padStart(2, '0');
+    playbackPosition.textContent = `${minutes}:${seconds}`;
+    document.getElementById('range23').value = audio.currentTime;
+    document.getElementById('range23').max = audio.duration;
+  };
+  // windows' z-index made higher when clicked
+  const windows = document.querySelectorAll('.window');
+  windows.forEach(win => {
+    win.addEventListener('mousedown', () => {
+      windows.forEach(w => w.style.zIndex = 10);
+      win.style.zIndex = 20;
+    });
+  });
+
+</script>
+
+
+</html>
