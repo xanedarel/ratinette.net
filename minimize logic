@@ -1,0 +1,45 @@
+  const windowBoxes = document.querySelectorAll('#infobox, #audioplayer');
+
+document.addEventListener('click', e => {
+  if (e.target.closest('.minimize')) {
+    windowBoxes.forEach(windowBox => {
+      if (windowBox.contains(e.target)) {
+        windowBox.style.display = 'none';
+
+        if (!windowBox.taskbarRestoreBtn) {
+          const btn = document.createElement('button');
+          btn.textContent = windowBox.querySelector('.title-bar-text').textContent;
+          btn.className = 'taskbar-restore';
+          btn.onclick = function() {
+            windowBox.style.display = '';
+            btn.remove();
+            windowBox.taskbarRestoreBtn = null;
+          };
+          document.querySelector('.taskbar-items').appendChild(btn);
+          windowBox.taskbarRestoreBtn = btn;
+        }
+      }
+    });
+  }
+});
+
+
+time logic
+const audio = document.getElementById('audio-element');
+const playbackLabel = document.getElementById('playbackposition');
+
+function formatTime(seconds) {
+  const m = Math.floor(seconds / 60);
+  const s = Math.floor(seconds % 60);
+  return `${m}:${s.toString().padStart(2, '0')}`;
+}
+
+// Update label when metadata is loaded
+audio.addEventListener('loadedmetadata', function() {
+  playbackLabel.textContent = `${formatTime(audio.currentTime)} / ${formatTime(audio.duration)}`;
+});
+
+// Update label as song plays
+audio.addEventListener('timeupdate', function() {
+  playbackLabel.textContent = `${formatTime(audio.currentTime)} / ${formatTime(audio.duration)}`;
+});
