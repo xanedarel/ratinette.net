@@ -2,6 +2,19 @@
 <html>
 
 <head>
+<!-- Standard favicon -->
+<link rel="icon" type="image/x-icon" href="img/icons/favicon16.ico">
+
+<!-- PNG favicons for better quality -->
+<link rel="icon" type="image/png" sizes="32x32" href="img/icons/favicon32.png">
+<link rel="icon" type="image/png" sizes="16x16" href="img/icons/favicon16.png">
+
+<!-- Apple Touch Icon -->
+<link rel="apple-touch-icon" sizes="180x180" href="img/icons/favicon180.png">
+
+<!-- Android Chrome icons -->
+<link rel="icon" type="image/png" sizes="192x192" href="img/icons/favicon192.png">
+<link rel="icon" type="image/png" sizes="512x512" href="img/icons/favicon512.png">
   <title>ratinette.net</title>
   <meta charset="UTF-8" />
 
@@ -156,57 +169,42 @@
   </div>
   <div id="audioplayer" class="window" style="z-index: 10; display: block; top: 100px; left: 100px; width: 240px">
     <div id="title-bar" class="title-bar">
-      <div class="title-bar-text">
-        Audio Player
-      </div>
-      <div class="title-bar-controls">
-        <button class="minimize" aria-label="Minimize"></button>
-        <button aria-label="Maximize"></button>
-        <button class="closebutton" aria-label="Close"
-          onclick="document.getElementById('audioplayer').style.display = 'none' ;"></button>
-      </div>
+        <div class="title-bar-text">Audio Player</div>
+        <div class="title-bar-controls">
+            <button class="minimize" aria-label="Minimize"></button>
+            <button aria-label="Maximize"></button>
+            <button class="closebutton" aria-label="Close" 
+                onclick="document.getElementById('audioplayer').style.display='none'"></button>
+        </div>
     </div>
     <div class="window-body" style="font-size: 11px;">
-      <div class="player-controls">
-        <img src="img/cover/ep1.png" alt="Cover" style="width: 64px; height: 64px; float: left; margin-right: 8px;" />
-        <button id="play-btn">Play</button>
-        <button id="pause-btn">Pause</button>
-        <button id="stop-btn">Stop</button>
-      </div>
-      <div class="field-row" style="height: 25px;">
-        <label for="range22" style="width: 40px;">Playback:</label>
-        <label id="playbackposition" for="range23" style="width: 35px;overflow: hidden">0:00</label>
-        <input id="range23" type="range" min="0" max="11" value="20" />
-      </div>
-      <div class="epselection" id="epselection">
-        <select>
-          <option selected>1 - When the summer was too hot</option>
-        </select>
-      </div>
-      <fieldset>
-        <legend>Now playing: </legend>
-        <div class="field-row">
-          <input checked id="radio1" type="radio" name="fieldset-1"
-            onclick="document.getElementById('audio-element').src='songs/playstation.mp3'; document.getElementById('audio-element').play();">
-          <label for="radio1">playstation.mp3</label>
+        <div class="player-controls">
+            <img src="img/cover/ep1.png" alt="Cover" style="width: 64px; height: 64px; float: left; margin-right: 8px;" />
+            <button id="play-btn">Play</button>
+            <button id="pause-btn">Pause</button>
+            <button id="stop-btn">Stop</button>
         </div>
-        <div class="field-row">
-          <input id="radio2" type="radio" name="fieldset-1"
-            onclick="document.getElementById('audio-element').src='songs/cello8.mp3'; document.getElementById('audio-element').play();">
-          <label for="radio2">cello7.mp3</label>
+        <div class="field-row" style="height: 25px;">
+            <label for="range22" style="width: 40px;">Playback:</label>
+            <label id="playbackposition" for="range23" style="width: 35px;overflow: hidden">0:00</label>
+            <input id="range23" type="range" min="0" max="11" value="20" />
         </div>
-        <div class="field-row">
-          <input id="radio3" type="radio" name="fieldset-1"
-            onclick="document.getElementById('audio-element').src='songs/vaporv6.mp3'; document.getElementById('audio-element').play();">
-          <label for="radio3">damev6.mp3</label>
+        <div class="epselection">
+            <select id="epselect">
+                <option value="ep1" selected>1 - When the summer was too hot</option>
+                <option value="demos">2 - Other Demos</option>
+            </select>
         </div>
-      </fieldset>
-      <audio id="audio-element">
-        <source src="songs/playstation.mp3" type="audio/mpeg">
-      </audio>
+        <fieldset>
+            <legend>Now playing: </legend>
+        </fieldset>
+        <audio id="audio-element">
+            <source src="songs/playstation40.mp3" type="audio/mpeg">
+        </audio>
     </div>
   </div>
-  <div id="infobox" class="window" style="z-index: 9; top: 32px; left: 32px; width: 250px; display: block">
+  <div id="infobox" class="window" style="z-index: 9; position: fixed; top: 50%; left: 50%; transform: translate(-50%, -50%); width: 250px; display: block">
+
     <div id="title-bar" class="title-bar">
       <div class="title-bar-text">
         INFO NOTICE
@@ -218,7 +216,7 @@
       </div>
     </div>
     <div class="window-body">
-      <p>This website is not ready yet</p>
+      <p>This website is not ready yet. The music player works, and you can listen to my lastest EP demo, just dont expect most things to work.</p>
       <section class="field-row" style="justify-content: flex-end">
         <button class="closebutton" onclick="document.getElementById('infobox').style.display = 'none';">OK</button>
         <button>Cancel</button>
@@ -252,7 +250,7 @@
 </body>
 
 <script>
-  // Clock
+  // clock
   function updateClock() {
     const clockElement = document.getElementById('clock');
     const now = new Date();
@@ -263,8 +261,10 @@
     hours = hours ? hours : 12;
     clockElement.textContent = `${hours}:${minutes} ${ampm}`;
   }
-  setInterval(updateClock, 1000);
+  setInterval(updateClock, 60000);
   updateClock();
+</script>
+<script>
   // close start menu when clicked outside of it 
   document.getElementById('start-button').onclick = function () {
     const startMenu = document.getElementById('startmenu');
@@ -281,6 +281,8 @@
       startMenu.style.display = 'none';
     }
   });
+</script>
+<script>
   function makeDraggable(element) {
     let currentPosX = 0, currentPosY = 0, previousPosX = 0, previousPosY = 0;
     element.querySelector('.title-bar').onmousedown = function (e) {
@@ -297,7 +299,6 @@
       element.style.opacity = 0.4;
       element.style.border = '2px #000000';
 
-      // restore opacity and remove border om mouse release
       document.onmouseup = function () {
         closeDragElement();
         element.style.opacity = 1;
@@ -322,11 +323,20 @@
     }
 
   }
-
   makeDraggable(document.querySelector('#infobox'));
   makeDraggable(document.querySelector('#audioplayer'));
   makeDraggable(document.querySelector('#whoami'));
 
+  const windows = document.querySelectorAll('.window');
+  windows.forEach(win => {
+    win.addEventListener('mousedown', () => {
+      windows.forEach(w => w.style.zIndex = 10);
+      win.style.zIndex = 20;
+    });
+  });
+
+</script>
+<script>
   document.getElementById('play-btn').onclick = function () {
     document.getElementById('audio-element').play();
   };
@@ -348,16 +358,56 @@
     document.getElementById('range23').value = audio.currentTime;
     document.getElementById('range23').max = audio.duration;
   };
-  // windows' z-index made higher when clicked
-  const windows = document.querySelectorAll('.window');
-  windows.forEach(win => {
-    win.addEventListener('mousedown', () => {
-      windows.forEach(w => w.style.zIndex = 10);
-      win.style.zIndex = 20;
+
+  const playlists = {
+    ep1: [
+      {src: 'songs/playstation40.mp3', label: "outside, lost, in the manor's garden.mp3"},
+      {src: 'songs/cello18.mp3', label: 'au bord de la deule.mp3'},
+      {src: 'songs/vaporv7.mp3', label: 'Rat No Sleep.mp3'},
+      {src: 'songs/itmb.mp3', label: 'I Try My Best.mp3'}
+    ],
+    demos: [
+      {src: 'songs/vh10-frnk.mp3', label: 'vh10 - slt c frnk lbf.mp3'},
+      {src: 'songs/abletonfever.mp3', label: 'Ableton Fever.mp3'},
+      {src: 'songs/osmose-draft2.mp3', label: 'Osmose Draft 2.mp3'},
+      {src: 'songs/tv-glowing.mp3', label: 'A glowing TV inside my brain.mp3'},
+      {src: 'songs/olinmmg.wav', label: "PADS & Keys - outside, lost, in the manor's maze garden.mp3"},
+      {src: 'songs/piano-only.mp3', label: 'Piano Solo - au bord de la deûle.mp3'}
+    ]
+  };
+
+  document.getElementById('epselect').addEventListener('change', function(e) {
+    const playlist = playlists[e.target.value] || [];
+    const fieldset = document.querySelector('#audioplayer fieldset');
+    fieldset.innerHTML = '<legend>Now playing: </legend>';
+    
+    playlist.forEach((track, i) => {
+      const row = document.createElement('div');
+      row.className = 'field-row';
+      row.innerHTML = `
+        <input ${i === 0 ? 'checked' : ''} id="radio${i}" type="radio" name="fieldset-1">
+        <label for="radio${i}">${track.label}</label>
+      `;
+      row.querySelector('input').onclick = function() {
+        const audio = document.getElementById('audio-element');
+        audio.src = track.src;
+        audio.play();
+        document.getElementById('range23').value = 0;
+        document.getElementById('playbackposition').textContent = '0:00';
+      };
+      fieldset.appendChild(row);
     });
+    
+    if (playlist[0]) {
+      const audio = document.getElementById('audio-element');
+      audio.src = playlist[0].src;
+      document.getElementById('range23').value = 0;
+      document.getElementById('playbackposition').textContent = '0:00';
+    }
   });
 
+  // Trigger initial playlist render for EP1
+  document.getElementById('epselect').dispatchEvent(new Event('change'));
 </script>
-
 
 </html>
