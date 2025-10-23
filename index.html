@@ -227,6 +227,82 @@
       </section>
     </div>
   </div>
+  <div id="strudel" class="window"
+    style="display: none; top: 80px; right: 20px; width: 630px; height: 465px; z-index: 10;">
+    <div class="title-bar">
+      <div class="title-bar-text">
+        My Strudel Patches
+      </div>
+      <div class="title-bar-controls">
+        <button class="minimize" aria-label="Minimize"></button>
+        <button aria-label="Maximize"></button>
+        <button class="closebutton" aria-label="Close"
+          onclick="document.getElementById('strudel').style.display = 'none';"></button>
+      </div>
+    </div>
+    <div class="window-body">
+       <menu role="tablist">
+    <li role="tab" aria-selected="true"><a href="#tabs">Rubedo</a></li>
+    <li role="tab"><a href="#tabs">Some vibe idk</a></li>
+  </menu>
+  <div class="window" role="tabpanel">
+<script src="https://unpkg.com/@strudel/embed@latest"></script>
+<strudel-repl>
+  <!--
+//Rubedo, Lena Rain
+
+setCpm(40/4)
+$piano: note(`<
+[[e3 b3 d4 a4]*4] 
+[[e3 b3 d4 ab4]*4] 
+[[e3 b3 d4 g4]*4] 
+[[e3 b3 d4 ab4]*4]
+[[<[e3,e4]!1 e3!3> b3 d4 a4]*4]
+[[e3 b3 d4 ab4]*4]
+[[<[e3,e4]!1 e3!3> b3 <d4, - - - f4> g4]*4]
+[[<[e3,e4]!1 e3!3> b3 d4 ab4]*4]
+[[<[e3,e4]!1 e3!3> a3 c4 a4]*4]
+[[e3 a3 c4 ab4]*4]
+[[<[e3,g4]!1 e3!3> a3 <c4, - - - f4> g4]*4]
+[[<[e3,e4]!1 e3!3> a3 c4 ab4]*4]
+[[<[e3,e4]!1 e3!3> a3 c4 a4]*4]
+[[e3 b3 d4 b4]*4]
+[[e3 c4 e4 c5]*4]
+[[e3 b3 d4 <c5!2 b4!2>]*4]
+[[<[e3,e4]!1 e3!3> a3 c4 a4]*4]
+[[e3 a3 c4 ab4]*4]
+[[e3 a3 c4 g4]*4] 
+[[e3 a3 c4 <ab4!3 [ab4 e5]!1>]*4]
+[[<[e32,e6]!1 e3!4> b3 d4 <a4!3 [a4,d6]!1>]*4]
+[[e3 <[b3,b5]!1 b3!3> d4 ab4]*4]
+>`).s("piano").room(.5).roomsize(6).rlp(15000).rfade(1).decay(1.7).sustain(.6).velocity(.5).orbit(1).gain(.8)
+._pianoroll()
+
+$accent: note(`<
+[[- - - -]*4]!4 
+[[- - - a4]*4]
+[[- - - ab4]*4]
+[[- - - g4]*4]
+[[- - - ab4]*4]
+[[- - - a4]*4]
+[[- - - ab4]*4]
+[[- - - -]*4]!3
+[[- - - b4]*4]
+[[- - - c5]*4]
+[[- - - <c5!2 b4!2>]*4]
+[[- - - a4]*4]
+[[- - - ab4]*4]
+[[- - - g4]*4]
+[[- - - ab4]*4]
+[[- - - a4]*4]
+[[- - - ab4,a5]*4]
+>`).s("piano").orbit(2).room(2).roomsize(1.2).sustain(1).velocity("[.8 .75 .7 .6]").gain(.7)
+._scope()
+-->
+</strudel-repl>
+  </div>
+    </div>
+  </div>
   <div id="startmenu" class="window"
     style="display: none; position: fixed; bottom: 22px; left: 0px; width: 200px; z-index: 30; background-color: #c0c0c0;  ">
     <div class="start-menu-items">
@@ -330,6 +406,7 @@
   makeDraggable(document.querySelector('#infobox'));
   makeDraggable(document.querySelector('#audioplayer'));
   makeDraggable(document.querySelector('#whoami'));
+  makeDraggable(document.querySelector('#strudel'));
 
   const windows = document.querySelectorAll('.window');
   windows.forEach(win => {
@@ -414,4 +491,72 @@
   document.getElementById('epselect').dispatchEvent(new Event('change'));
 </script>
 
+<script>
+  (function () {
+    const strudel = document.getElementById('strudel');
+    if (!strudel) return;
+
+    const tablist = strudel.querySelector('menu[role="tablist"]');
+    const tabs = tablist ? Array.from(tablist.querySelectorAll('[role="tab"]')) : [];
+    const tabpanel = strudel.querySelector('[role="tabpanel"]');
+    if (!tabpanel || tabs.length === 0) return;
+
+    const contents = [];
+    contents[0] = tabpanel.innerHTML;
+    contents[1] = `<strudel-repl><!--
+//Some vibe idk
+setCpm(90/4)
+$lefthand: note("g2 <c2 bb2> <bb2 eb2> <d2@2 ->").s("sawtooth")._pianoroll()
+.gain(.7).orbit(3).lpf(200).lpenv(1.5).lpq(8).room(1.3)
+
+$righthand: note(\`<[[bb d f a3]*4]
+[[c <eb4 d> a4 g3]*4]
+[[<- g> bb d f]*4]
+[[<eb!2 -!1 eb2!1> g bb d]*4]
+>\`).s("piano")._pianoroll()
+.room(.4).roomsize(.5).gain(.6)
+
+$pad: note("<[g2,bb,d,a][c2,eb,g,bb]>").s("gm_pad_halo").gain(.4).detune(1).room(1.3).orbit(3)
+.beat(2,4)
+.slow(4)
+$: s("sbd").duck("3").duckatt(.2).beat("0,12,7,3,14",16)._scope()
+$: s("sd").beat("<2*2?,4,12>",16)._punchcard()
+.orbit(1).duck("3").duckattack(.2).duckdepth(.8).decay(.4)
+_$: s("hh:4!8").orbit(3).hpf(6000)._scope()
+.gain(.6).sometimesBy(.1, x => x.ply("2 | 4"))
+$: s("insect").beat("3?",16).room(20).lpf(4500).gain(.6)._punchcard()
+.orbit(3).hpf(6000).gain(.6)
+
+$fx: stack(
+  s("crackle").gain(.4).lpf(2500),
+  )
+    `;
+
+    function activate(index) {
+      tabs.forEach((t, i) => {
+        const selected = i === index;
+        t.setAttribute('aria-selected', selected ? 'true' : 'false');
+        t.classList.toggle('is-active', selected);
+      });
+      tabpanel.innerHTML = contents[index] || '';
+    }
+
+    tabs.forEach((tab, i) => {
+      tab.setAttribute('tabindex', '0');
+      tab.addEventListener('click', e => {
+        e.preventDefault();
+        activate(i);
+      });
+      tab.addEventListener('keydown', e => {
+        if (e.key === 'Enter' || e.key === ' ') {
+          e.preventDefault();
+          activate(i);
+        }
+      });
+    });
+
+    // initialize: select the first tab (EP default)
+    activate(0);
+  })();
+</script>
 </html>
